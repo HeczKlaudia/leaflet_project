@@ -16,21 +16,21 @@ let map = L.map("map", {
   scrollWheelZoom: false,
 });
 
-/* POPUP AND ADRESS */
+/* POPUP AND ADDRESS */
 
 function addPopup(marker) {
-  let adressLat = marker.getLatLng().lat;
-  let adressLng = marker.getLatLng().lng;
+  let addressLat = marker.getLatLng().lat;
+  let addressLng = marker.getLatLng().lng;
   // OSM Nomitatim documentation: http://wiki.openstreetmap.org/wiki/Nominatim
   var jsonQuery =
     "http://nominatim.openstreetmap.org/reverse?format=json&lat=" +
-    adressLat +
+    addressLat +
     "&lon=" +
-    adressLng +
+    addressLng +
     "&zoom=18&addressdetails=1";
 
   $.getJSON(jsonQuery).done(function (result_data) {
-    /*  console.log(result_data); */
+    //   console.log(result_data);
 
     var road;
 
@@ -44,10 +44,10 @@ function addPopup(marker) {
 
     var popup_text =
       "<b>Latlng:</b> " +
-      adressLat +
+      addressLat +
       ", " +
-      adressLng +
-      "</br><b>Adress:</b> " +
+      addressLng +
+      "</br><b>Address:</b> " +
       road +
       ", " +
       result_data.address.house_number +
@@ -58,8 +58,30 @@ function addPopup(marker) {
       "</br><b>Zip code:</b> " +
       result_data.address.postcode;
 
-    document.getElementById("latitude").value = adressLat;
-    document.getElementById("longitude").value = adressLng;
+    document.getElementById("latitude").value = addressLat;
+    document.getElementById("longitude").value = addressLng;
+
+/* ez majd a submit gombra */
+
+    let dest = $(".uticelokArticle");
+
+    dest.append(
+      "<p>" +
+        result_data.address.city +
+        ", " +
+        result_data.address.country +
+        "</p>"
+    );
+    dest.append(
+      "<p>" +
+        result_data.address.state +
+        ", " +
+        result_data.address.county +
+        "</p>"
+    );
+
+    console.log(result_data.address.city + ", " + result_data.address.country); // város + ország
+    console.log(result_data.address.state + ", " + result_data.address.county); // állam + megye
 
     marker.bindPopup(popup_text).openPopup();
   });
@@ -73,7 +95,6 @@ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
 /* MAP CLICK */
 
 map.on("click", function (e) {
-
   // removes old marker
   if (newMarker) {
     map.removeLayer(newMarker);
@@ -128,6 +149,8 @@ map.on("click", function (e) {
 /* KERESŐ */
 
 let searchDest = L.Control.geocoder().addTo(map);
+/* document.getElementById("latitude").value = ;
+document.getElementById("longitude").value = ; */
 
 /* LAYEREK */
 
@@ -151,13 +174,13 @@ L.control.layers(basemaps).addTo(map); // layer választó menü
 
 basemaps.StreetView.addTo(map);
 
-/* Cím */
+/* CÍM */
 
 var myMarker = L.marker([startlat, startlon], {
   title: "Coordinates",
   alt: "Coordinates",
   draggable: true,
-}).addTo(map);
+}).addTo(map); // alap marker mutatása (Budapest) + cím keresés utáni mutatása
 
 function chooseAddr(lat1, lng1) {
   myMarker.closePopup();

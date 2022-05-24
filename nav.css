@@ -68,7 +68,7 @@
 /* @media screen and (max-width: 950px) {
 } */
 
-@media screen and (max-width: 660px) {
+@media screen and (max-width: 680px) {
   .topnav a:not(:first-child) {
     display: none;
   }
@@ -76,9 +76,6 @@
     float: right;
     display: block;
   }
-}
-
-@media screen and (max-width: 660px) {
   .topnav.responsive {
     position: relative;
   }
@@ -92,6 +89,9 @@
     display: block;
     text-align: left;
   }
+ /*  .logo {
+    display: none;
+  } */
 }
 
 /* #map {
