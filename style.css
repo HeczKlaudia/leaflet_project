@@ -1,78 +1,73 @@
 body {
   width: 100%;
   max-width: 1400px;
-  /*   margin: 0 20vh 0 20vh; */
   margin: auto;
   padding: 0;
 }
 
 h1 {
   font-size: 30px;
+  margin-bottom: 25px;
 }
 
 .logo img {
   width: 100%;
 }
 
-.nav-main {
-  /*  position: fixed; */
-  /*   top: 0;
-  left: 0; */
-  width: 100%;
-  /*   height: 14vh; */
-  background-color: #fff;
-  display: grid;
-  /*   flex-wrap: wrap;
-  justify-content: center;
-  align-items: center; */
-}
-
-.nav-main ul {
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  padding: 15px;
-}
-.nav-main ul li {
-  list-style: none;
-  line-height: 0px;
-  padding: 10px 55px 0 0;
-}
-
-.nav-main ul li a {
-  display: block;
-  height: 200%;
-  padding: 0 10px;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: #111;
-  font-family: arial;
-  font-size: 16px;
-}
-
 /* map */
 #map {
-  /*   position: fixed; */
   width: 100%;
   height: 60vh;
   border-radius: 10px;
-  /*   top: 105px;
-  left: 0; */
 }
 
 .terkepTarolo {
   background-color: #f1f1f1;
-  display: flex;
-  justify-content: center;
+/*   display: flex; */
+/*   justify-content: center; */
   padding: 10px;
 }
 
-.terkepSection {
-    margin-top: 40px;
+section {
+  display: grid;
+  grid-template-columns: 80% 20%;
+}
+
+.terkepSection, .uticelokArticle {
+  margin-top: 40px;
+}
+
+.uticelokArticle, .uticelokArticle h1 {
+  text-align: right;
 }
 
 .uticelForm {
-  margin: 20px;
+  margin-top: 60px;
 }
+
+.cimSearch {
+  margin-top: 40px;
+}
+
+@media screen and (max-width: 1440px) {
+  section {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  h1 {
+    text-align: center;
+  }
+
+  .uticelokArticle, .uticelokArticle h1 {
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 1405px) {
+  .cimSearch, .uticelForm {
+    margin:5%
+  }
+  
+}
+

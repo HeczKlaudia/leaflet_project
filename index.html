@@ -28,114 +28,132 @@
       crossorigin="anonymous"
     ></script>
     <!-- /Bootstrap -->
-    <link rel="stylesheet" href="style.css" />
+
     <link
       rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
-      integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
-      crossorigin=""
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="nav.css" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css"
+    />
+
+    <!-- Load Leaflet from CDN-->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet-src.js"></script>
+
+    <!-- Load Esri Leaflet from CDN -->
+    <script src="https://unpkg.com/esri-leaflet@^3.0.8/dist/esri-leaflet.js"></script>
+    <script src="https://unpkg.com/esri-leaflet-vector@^3.0.0/dist/esri-leaflet-vector.js"></script>
+
+    <!-- Esri Leaflet Geocoder -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/esri-leaflet-geocoder/dist/esri-leaflet-geocoder.css"
+    />
+    <script src="https://unpkg.com/esri-leaflet-geocoder"></script>
   </head>
 
   <body>
-    <div>
-      <nav class="nav-main">
-        <div class="logo">
-          <img src="countryside-g57d523430_1280.jpg" alt="" />
+    <div class="logo">
+      <img src="countryside-g57d523430_1280.jpg" alt="" />
+    </div>
+    <div class="topnav" id="myTopnav">
+      <ul>
+        <a href="#">Home</a>
+        <a href="#">My destinations</a>
+        <a href="#">About Us</a>
+        <a href="#">Gallery</a>
+        <a href="#">Contact</a>
+        <a href="javascript:void(0);" class="icon" onclick="nav()">
+          <i class="fa fa-bars"></i>
+        </a>
+      </ul>
+    </div>
+
+    <script>
+      function nav() {
+        var x = document.getElementById("myTopnav");
+        if (x.className === "topnav") {
+          x.className += " responsive";
+        } else {
+          x.className = "topnav";
+        }
+      }
+    </script>
+
+    <section>
+      <div class="terkepSection">
+        <h1>Road trip planner</h1>
+        <div class="terkepTarolo">
+          <div id="map"></div>
         </div>
-        <ul>
-          <li><a href="#">Home</a></li>
-          <li><a href="#">Portfolio</a></li>
-          <li><a href="#">About Us</a></li>
-          <li><a href="#">Gallery</a></li>
-          <li><a href="#">Contact</a></li>
-        </ul>
-      </nav>
-    </div>
-
-    <div class="terkepSection">
-      <h1>Road trip planner</h1>
-      <div class="terkepTarolo">
-        <div id="map"></div>
       </div>
-    </div>
 
+      <div class="uticelokArticle">
+        <h1>Destinations</h1>
+        <p>fafafafas</p>
+        <p>fafafafas</p>
+        <p>fafafafas</p>
+        <p>fafafafas</p>
+        <p>fafafafas</p>
+        <p>fafafafas</p>
+        <p>fafafafas</p>
+        <p>fafafafas</p>
+      </div>
+    </section>
+    <br />
+    <div class="cimSearch">
+      <b>Search for an adress</b>
+      <div class="input-group" id="search">
+        <input
+          type="search"
+          class="form-control rounded"
+          name="addr"
+          value=""
+          id="addr"
+          size="58"
+        />
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          onclick="addr_search();"
+        >
+          Search
+        </button>
+      </div>
+      <div id="results"></div>
+    </div>
     <div class="uticelForm">
-        <h3>Add destination:</h3>
-      <form>
+      <h3>Add destination:</h3>
+      <form id="form">
         <div class="form-row">
           <div class="form-group col-md-6">
-            <label for="inputEmail4">Country</label>
+            <label for="inputEmail4">Latitude (Szélesség):</label>
             <input
               type="text"
               class="form-control"
-              id="inputEmail4"
+              id="latitude"
               placeholder="Country"
             />
           </div>
           <div class="form-group col-md-6">
-            <label for="inputPassword4">City</label>
+            <label for="inputPassword4">Longitude (Hosszúság):</label>
             <input
               type="text"
               class="form-control"
-              id="inputPassword4"
+              id="longitude"
               placeholder="City"
             />
           </div>
         </div>
-        <div class="form-group">
-          <label for="inputAddress">Address</label>
-          <input
-            type="text"
-            class="form-control"
-            id="inputAddress"
-            placeholder="1234 Main St"
-          />
-        </div>
-<!--         <div class="form-group">
-          <label for="inputAddress2">Address 2</label>
-          <input
-            type="text"
-            class="form-control"
-            id="inputAddress2"
-            placeholder="Apartment, studio, or floor"
-          />
-        </div>
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="inputCity">City</label>
-            <input type="text" class="form-control" id="inputCity" />
-          </div>
-          <div class="form-group col-md-4">
-            <label for="inputState">State</label>
-            <select id="inputState" class="form-control">
-              <option selected>Choose...</option>
-              <option>...</option>
-            </select>
-          </div>
-          <div class="form-group col-md-2">
-            <label for="inputZip">Zip</label>
-            <input type="text" class="form-control" id="inputZip" />
-          </div>
-        </div> -->
-    <!--     <div class="form-group">
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="gridCheck" />
-            <label class="form-check-label" for="gridCheck">
-              Check me out
-            </label>
-          </div>
-        </div> -->
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
     </div>
   </body>
 
-  <!-- Make sure you put this AFTER Leaflet's CSS -->
-  <script
-    src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
-    integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
-    crossorigin=""
-  ></script>
-  <script src="app.js"></script>
+  <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+  <script src="map.js"></script>
 </html>
