@@ -8,17 +8,14 @@ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
 var popup = L.popup();
 
 function onMapClick(e) {
-    document.getElementById('lat-lng').value = e.latlng.toString();
+  document.getElementById("lat-lng").value = e.latlng.toString();
 
-    popup
-        .setLatLng(e.latlng)
-        .setContent("Copy and Paste into the Form \n" + e.latlng.toString())
-        .openOn(mymap);
+  popup
+    .setLatLng(e.latlng)
+    .setContent("Copy and Paste into the Form \n" + e.latlng.toString())
+    .openOn(mymap);
 }
-document.getElementById('your-input-id').value = e.latlng.toString();
-
-
-
+document.getElementById("your-input-id").value = e.latlng.toString();
 
 // jelölők
 /* const marker1 = L.marker([-37.69945, 176.27942]).addTo(map);
@@ -31,7 +28,6 @@ const marker7 = L.marker([-22.5944, 167.48444]).addTo(map);
 const marker8 = L.marker([-37.977, 177.057]).addTo(map);
 const marker9 = L.marker([-41.0376, 173.017]).addTo(map);
 const marker10 = L.marker([-37.6703, 176.212]).addTo(map); */
-
 
 // jelölők felugró ablakkal és ikonnal
 const basicBeachIcon = L.icon({
@@ -71,10 +67,7 @@ const marker10 = L.marker([-37.6703, 176.212] /* , {icon: basicBeachIcon} */)
   .bindPopup("Mt Maunganui Main Beach, New Zealand")
   .addTo(map);
 
-
-
-
-  /* L.mapquest.key = 'dvd9kRGGQ258rP6npiIkZNSGyIQC7F3A';
+/* L.mapquest.key = 'dvd9kRGGQ258rP6npiIkZNSGyIQC7F3A';
 var baseLayer = L.mapquest.tileLayer('dark');
           
 L.mapquest.geocoding().geocode(['New York, NY'], showMap);
@@ -85,14 +78,6 @@ function showMap(err, data) {
   addLayerControl(map);
 }
 
-function createMap() {
-  var map = L.mapquest.map('map', {
-    center: [40.7237, -73.9825],
-    zoom: 14,
-    layers: baseLayer
-  });
-  return map;
-}
 
 function addLayerControl(map) {
   L.control.layers({
@@ -104,7 +89,7 @@ function addLayerControl(map) {
   }, {}, { position: 'topleft'}).addTo(map);
 } */
 
-
+/* SEARCHBOX */
 
 /* var searchbox =  new L.Control.Search({
   callData: googleGeocoding,
@@ -138,3 +123,68 @@ crossorigin=""
 rel="stylesheet"
 href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css"
 /> */
+
+/* new marker + drag */
+
+/* var myMarker = L.marker([startlat, startlon], {
+  title: "Coordinates",
+  alt: "Coordinates",
+  draggable: true,
+})
+   .addTo(map) */
+
+/* DRAG MARKER */
+/* 
+  .on("dragend", function () {
+    var lat = myMarker.getLatLng().lat.toFixed(8);
+    var lon = myMarker.getLatLng().lng.toFixed(8);
+    var czoom = map.getZoom();
+    if (czoom < 18) {
+      nzoom = czoom + 2;
+    }
+    if (nzoom > 18) {
+      nzoom = 18;
+    }
+    if (czoom != 18) {
+      map.setView([lat, lon], nzoom);
+    } else {
+      map.setView([lat, lon]);
+    }
+  });
+    
+    document.getElementById("latitude").value = lat;
+    document.getElementById("longitude").value = lon; 
+    myMarker.bindPopup("Lat " + lat + "<br />Lon " + lon).openPopup();
+    */
+
+/* POLYGON SEARCH */
+
+/*  var geocoder = L.Control.geocoder({
+  defaultMarkGeocode: false
+})
+  .on('markgeocode', function(e) {
+    var bbox = e.geocode.bbox;
+    var poly = L.polygon([
+      bbox.getSouthEast(),
+      bbox.getNorthEast(),
+      bbox.getNorthWest(),
+      bbox.getSouthWest()
+    ]).addTo(map);
+    map.fitBounds(poly.getBounds());
+  })
+  .addTo(map); */
+
+  /* TÉRKÉPRE KATTINTÁS */
+
+/* var popup = L.popup();
+
+function onMapClick(e) {
+  popup
+    .setLatLng(e.latlng)
+    .setContent("You clicked the map at " + e.latlng.toString())
+    .openOn(map);
+
+  //  document.getElementById('country').value = e.latlng.toString();
+}
+
+map.on("click", onMapClick); */

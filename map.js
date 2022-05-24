@@ -3,7 +3,9 @@ const apiKey =
 
 const basemapEnum = "ArcGIS:Navigation";
 
-/* ALAP TÉRKÉP */
+var newMarker;
+
+/* BASIC MAP */
 
 var startlat = 47.497913;
 var startlon = 19.040236;
@@ -14,34 +16,118 @@ let map = L.map("map", {
   scrollWheelZoom: false,
 });
 
-document.getElementById("latitude").value = startlat;
-document.getElementById("longitude").value = startlon;
+/* POPUP AND ADRESS */
+
+function addPopup(marker) {
+  let adressLat = marker.getLatLng().lat;
+  let adressLng = marker.getLatLng().lng;
+  // OSM Nomitatim documentation: http://wiki.openstreetmap.org/wiki/Nominatim
+  var jsonQuery =
+    "http://nominatim.openstreetmap.org/reverse?format=json&lat=" +
+    adressLat +
+    "&lon=" +
+    adressLng +
+    "&zoom=18&addressdetails=1";
+
+  $.getJSON(jsonQuery).done(function (result_data) {
+    /*  console.log(result_data); */
+
+    var road;
+
+    if (result_data.address.road) {
+      road = result_data.address.road;
+    } else if (result_data.address.pedestrian) {
+      road = result_data.address.pedestrian;
+    } else {
+      road = "No definition";
+    }
+
+    var popup_text =
+      "<b>Latlng:</b> " +
+      adressLat +
+      ", " +
+      adressLng +
+      "</br><b>Adress:</b> " +
+      road +
+      ", " +
+      result_data.address.house_number +
+      "</br><b>District:</b> " +
+      result_data.address.city_district +
+      "</br><b>City:</b> " +
+      result_data.address.city +
+      "</br><b>Zip code:</b> " +
+      result_data.address.postcode;
+
+    document.getElementById("latitude").value = adressLat;
+    document.getElementById("longitude").value = adressLng;
+
+    marker.bindPopup(popup_text).openPopup();
+  });
+}
 
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   attribution:
     '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 }).addTo(map);
 
+/* MAP CLICK */
+
+map.on("click", function (e) {
+
+  // removes old marker
+  if (newMarker) {
+    map.removeLayer(newMarker);
+  }
+
+  /* DRAG MARKER */
+
+  newMarker = L.marker([e.latlng.lat, e.latlng.lng], { draggable: true })
+    .addTo(map)
+    .on("dragend", function (event) {
+      // add popup information on dragged marker
+      addPopup(newMarker);
+    });
+  document.getElementById("latitude").value = e.latlng.lat;
+  document.getElementById("longitude").value = e.latlng.lng;
+  addPopup(newMarker);
+});
+
+/* REVERSE GEOCODE */
+
+/* L.esri.Vector.vectorBasemapLayer(basemapEnum, {
+  apiKey: apiKey,
+}).addTo(map);
+ */
+/* const layerGroup = L.layerGroup().addTo(map); */
+
+/* map.on("click", function (e) {
+  L.esri.Geocoding.reverseGeocode({
+    apikey: apiKey,
+  })
+    .latlng(e.latlng)
+    .run(function (error, result) {
+      if (error) {
+        return;
+      }
+
+      const lngLatString = `${
+        Math.round(result.latlng.lng * 100000) / 100000
+      }, ${Math.round(result.latlng.lat * 100000) / 100000}`;
+
+      layerGroup.clearLayers();
+      marker = L.marker(result.latlng)
+        .addTo(layerGroup)
+        .bindPopup(`<b>${lngLatString}</b><p>${result.address.Match_addr}</p>`)
+        .openPopup();
+
+      document.getElementById("latitude").value = result.latlng.lng;
+      document.getElementById("longitude").value = result.latlng.lat;
+    });
+}); */
+
 /* KERESŐ */
 
 let searchDest = L.Control.geocoder().addTo(map);
-
-/* POLYGON SEARCH */
-
-/*  var geocoder = L.Control.geocoder({
-  defaultMarkGeocode: false
-})
-  .on('markgeocode', function(e) {
-    var bbox = e.geocode.bbox;
-    var poly = L.polygon([
-      bbox.getSouthEast(),
-      bbox.getNorthEast(),
-      bbox.getNorthWest(),
-      bbox.getSouthWest()
-    ]).addTo(map);
-    map.fitBounds(poly.getBounds());
-  })
-  .addTo(map); */
 
 /* LAYEREK */
 
@@ -65,63 +151,13 @@ L.control.layers(basemaps).addTo(map); // layer választó menü
 
 basemaps.StreetView.addTo(map);
 
-/* REVERSE GEOCODE */
-
-/* L.esri.Vector.vectorBasemapLayer(basemapEnum, {
-  apiKey: apiKey,
-}).addTo(map);
- */
-const layerGroup = L.layerGroup().addTo(map);
-
-map.on("click", function (e) {
-  L.esri.Geocoding.reverseGeocode({
-    apikey: apiKey,
-  })
-    .latlng(e.latlng)
-    .run(function (error, result) {
-      if (error) {
-        return;
-      }
-
-      const lngLatString = `${
-        Math.round(result.latlng.lng * 100000) / 100000
-      }, ${Math.round(result.latlng.lat * 100000) / 100000}`;
-
-      layerGroup.clearLayers();
-      marker = L.marker(result.latlng)
-        .addTo(layerGroup)
-        .bindPopup(`<b>${lngLatString}</b><p>${result.address.Match_addr}</p>`)
-        .openPopup();
-    });
-});
-
-/* DRAG MARKER */
+/* Cím */
 
 var myMarker = L.marker([startlat, startlon], {
   title: "Coordinates",
   alt: "Coordinates",
   draggable: true,
-})
-  .addTo(map)
-  .on("dragend", function () {
-    var lat = myMarker.getLatLng().lat.toFixed(8);
-    var lon = myMarker.getLatLng().lng.toFixed(8);
-    var czoom = map.getZoom();
-    if (czoom < 18) {
-      nzoom = czoom + 2;
-    }
-    if (nzoom > 18) {
-      nzoom = 18;
-    }
-    if (czoom != 18) {
-      map.setView([lat, lon], nzoom);
-    } else {
-      map.setView([lat, lon]);
-    }
-    document.getElementById("latitude").value = lat;
-    document.getElementById("longitude").value = lon;
-    myMarker.bindPopup("Lat " + lat + "<br />Lon " + lon).openPopup();
-  });
+}).addTo(map);
 
 function chooseAddr(lat1, lng1) {
   myMarker.closePopup();
@@ -184,18 +220,3 @@ function submitForm(event) {
 const form = document.getElementById("form");
 
 form.addEventListener("submit", submitForm);
-
-/* TÉRKÉPRE KATTINTÁS */
-
-var popup = L.popup();
-
-function onMapClick(e) {
-  popup
-    .setLatLng(e.latlng)
-    .setContent("You clicked the map at " + e.latlng.toString())
-    .openOn(map);
-
-  //  document.getElementById('country').value = e.latlng.toString();
-}
-
-map.on("click", onMapClick);
