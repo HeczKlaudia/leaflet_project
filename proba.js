@@ -188,3 +188,17 @@ function onMapClick(e) {
 }
 
 map.on("click", onMapClick); */
+
+
+/* function submitForm(event) {
+   event.preventDefault();
+   //console.log("submitted");
+ 
+   start = document.getElementById("latitude").value;
+   end = document.getElementById("longitude").value;
+ }
+ 
+ const form = document.getElementById("form");
+ 
+ form.addEventListener("submit", submitForm); */
+ 

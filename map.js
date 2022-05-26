@@ -4,6 +4,7 @@ const apiKey =
 const basemapEnum = "ArcGIS:Navigation";
 
 var newMarker;
+var kapottAdat;
 
 /* BASIC MAP */
 
@@ -30,9 +31,9 @@ function addPopup(marker) {
     "&zoom=18&addressdetails=1";
 
   $.getJSON(jsonQuery).done(function (result_data) {
-    //   console.log(result_data);
-
+    //  console.log(result_data);
     var road;
+    kapottAdat = result_data;
 
     if (result_data.address.road) {
       road = result_data.address.road;
@@ -56,36 +57,53 @@ function addPopup(marker) {
       "</br><b>City:</b> " +
       result_data.address.city +
       "</br><b>Zip code:</b> " +
-      result_data.address.postcode;
+      result_data.address.postcode +
+      "</br><b>Country:</b> " +
+      result_data.address.country;
 
     document.getElementById("latitude").value = addressLat;
     document.getElementById("longitude").value = addressLng;
 
-/* ez majd a submit gombra */
-
-    let dest = $(".uticelokArticle");
-
-    dest.append(
-      "<p>" +
-        result_data.address.city +
-        ", " +
-        result_data.address.country +
-        "</p>"
-    );
-    dest.append(
-      "<p>" +
-        result_data.address.state +
-        ", " +
-        result_data.address.county +
-        "</p>"
-    );
-
-    console.log(result_data.address.city + ", " + result_data.address.country); // város + ország
-    console.log(result_data.address.state + ", " + result_data.address.county); // állam + megye
-
     marker.bindPopup(popup_text).openPopup();
+
+    var newMarker = {Lat: marker.getLatLng().lat, Lng: marker.getLatLng().lng};
+    localStorage["marker1"] = JSON.stringify(newMarker);
+    console.log(localStorage["marker1"]);
+
   });
+
 }
+
+let dest = $("#destinations");
+
+$("#submit").click(function (event) {
+  event.preventDefault();
+  //   console.log(kapottAdat);
+  var target = $(event.target);
+  if (
+    target.has(kapottAdat.address.city) &&
+    target.has(kapottAdat.address.country)
+  ) {
+    dest.append(
+      "<p>" +
+        kapottAdat.address.city +
+        ", " +
+        kapottAdat.address.country +
+        "</p>"
+    );
+  } else if (
+    target.has(kapottAdat.address.state) &&
+    target.has(kapottAdat.address.county)
+  ) {
+    dest.append(
+      "<p>" +
+        kapottAdat.address.state +
+        ", " +
+        kapottAdat.address.county +
+        "</p>"
+    );
+  }
+});
 
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   attribution:
@@ -231,10 +249,9 @@ function addr_search() {
 }
 
 /* ŰRLAP */
-
+/* 
 function submitForm(event) {
   event.preventDefault();
-  console.log("submitted");
 
   start = document.getElementById("latitude").value;
   end = document.getElementById("longitude").value;
@@ -242,4 +259,4 @@ function submitForm(event) {
 
 const form = document.getElementById("form");
 
-form.addEventListener("submit", submitForm);
+form.addEventListener("submit", submitForm); */
