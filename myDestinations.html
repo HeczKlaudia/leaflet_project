@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Road trip planner</title>
+    <!-- Bootstrap -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+    <!-- /Bootstrap -->
+    <script
+      src="https://kit.fontawesome.com/44076e1688.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/mydest.css" />
+    <link rel="stylesheet" href="css/nav.css" />
+
+    <link
+      href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css"
+      rel="stylesheet"
+    />
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2022.2.510/styles/kendo.default-v2.min.css"/>
+
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2022.2.510/js/kendo.all.min.js"></script>
+
+    <script src="js/mydest.js"></script>
+  </head>
+
+  <body>
+    <div class="logo">
+      <img src="countryside-g57d523430_1280.jpg" alt="" />
+    </div>
+    <div class="topnav" id="myTopnav">
+      <ul>
+        <a href="#">Home</a>
+        <a href="myDestinations.html">My destinations</a>
+        <a href="#">About Us</a>
+        <a href="#">Gallery</a>
+        <a href="#">Contact</a>
+        <a href="javascript:void(0);" class="icon" onclick="nav()">
+          <i class="fa fa-bars"></i>
+        </a>
+      </ul>
+    </div>
+
+    <script>
+      function nav() {
+        var x = document.getElementById("myTopnav");
+        if (x.className === "topnav") {
+          x.className += " responsive";
+        } else {
+          x.className = "topnav";
+        }
+      }
+    </script>
+
+    <h1>Destinations</h1>
+    <div id="mydest">
+      <!--         <div class="" id="dest-list">
+          <div class="item">
+            <div class="handle flex-center">
+              <i class="fa fa-bars"></i>
+            </div>
+            <div class="dest">
+              <div class="data">City, Country</div> -->
+      <div class="result"></div>
+      <!--      </div>
+            <div class="delete flex-center">
+              <i class="fa fa-close"></i>
+            </div>
+          </div>
+        </div> -->
+
+      <a href="index.html">Go to the map</a>
+    </div>
+  </body>
+</html>

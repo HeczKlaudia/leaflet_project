@@ -7,6 +7,8 @@ let newMarker;
 let kapottAdat;
 const myDest = [];
 let dest = $("#destinations");
+
+addDest();
 storage();
 
 /* BASIC MAP */
@@ -79,43 +81,47 @@ function addPopup(marker) {
   });
 }
 
-$("#submit").click(function (event) {
-  event.preventDefault();
-  var target = $(event.target);
+function addDest() {
+  $("#submit").click(function (event) {
+    event.preventDefault();
+    var target = $(event.target);
 
-  if (kapottAdat.address.city === undefined) {
-    dest.append(
-      kapottAdat.address.county + ", " + kapottAdat.address.country + "</p>"
-    );
-    myDest.push(kapottAdat.address.county + ", " + kapottAdat.address.country);
-  } else if (
-    target.has(kapottAdat.address.city) &&
-    target.has(kapottAdat.address.country)
-  ) {
-    dest.append(
-      "<p>" +
-        kapottAdat.address.city +
-        ", " +
-        kapottAdat.address.country +
-        "</p>"
-    );
-    myDest.push(kapottAdat.address.city + ", " + kapottAdat.address.country);
-  } else if (
-    target.has(kapottAdat.address.state) &&
-    target.has(kapottAdat.address.county)
-  ) {
-    dest.append(
-      "<p>" +
-        kapottAdat.address.state +
-        ", " +
-        kapottAdat.address.county +
-        "</p>"
-    );
-    myDest.push(kapottAdat.address.state + ", " + kapottAdat.address.county);
-  }
+    if (kapottAdat.address.city === undefined) {
+      dest.append(
+        kapottAdat.address.county + ", " + kapottAdat.address.country + "</p>"
+      );
+      myDest.push(
+        kapottAdat.address.county + ", " + kapottAdat.address.country
+      );
+    } else if (
+      target.has(kapottAdat.address.city) &&
+      target.has(kapottAdat.address.country)
+    ) {
+      dest.append(
+        "<p>" +
+          kapottAdat.address.city +
+          ", " +
+          kapottAdat.address.country +
+          "</p>"
+      );
+      myDest.push(kapottAdat.address.city + ", " + kapottAdat.address.country);
+    } else if (
+      target.has(kapottAdat.address.state) &&
+      target.has(kapottAdat.address.county)
+    ) {
+      dest.append(
+        "<p>" +
+          kapottAdat.address.state +
+          ", " +
+          kapottAdat.address.county +
+          "</p>"
+      );
+      myDest.push(kapottAdat.address.state + ", " + kapottAdat.address.county);
+    }
 
-  localStorage.setItem("destination", JSON.stringify(myDest));
-});
+    localStorage.setItem("destination", JSON.stringify(myDest));
+  });
+}
 
 /* LocalStorage */
 
@@ -125,7 +131,6 @@ function storage() {
     localstorageGet.forEach((element) => {
       myDest.push(element);
     });
-    console.log(myDest);
     for (let index = 0; index < myDest.length; index++) {
       dest.append("<p>" + myDest[index] + "</p>");
     }

@@ -1,0 +1,54 @@
+#mydest {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#dest-list {
+    width: 900px;
+    margin-bottom: 8px;
+}
+
+#dest-list .item {
+    display: flex;
+}
+
+#dest-list .item > div {
+    padding: 2px 0px;
+}
+
+#dest-list .item .handle {
+    width: 35px;
+    background-color: gainsboro;
+    border: 1px solid rgb(209, 204, 204);
+    cursor: grab;
+}
+
+#dest-list .item .dest {
+    padding: 0px 10px;;
+    flex: 1;
+}
+
+#dest-list .item .dest .data {
+    font-size: 16px;
+    color: #111;
+    padding: 0px 5px 3px;
+}
+
+#dest-list .item .dest .result {
+    font-size: 14px;
+    color: #555;
+    padding: 0px 7px;
+}
+
+#dest-list .item .delete {
+    width: 50px;
+    cursor: pointer;
+}
+
