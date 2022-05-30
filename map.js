@@ -3,19 +3,27 @@ const apiKey =
 
 const basemapEnum = "ArcGIS:Navigation";
 
-var newMarker;
-var kapottAdat;
+let newMarker;
+let kapottAdat;
+const myDest = [];
+let dest = $("#destinations");
+storage();
 
 /* BASIC MAP */
 
-var startlat = 47.497913;
-var startlon = 19.040236;
+let startlat = 47.497913;
+let startlon = 19.040236;
 
 let map = L.map("map", {
   center: [startlat, startlon],
-  zoom: 13,
+  zoom: 5,
   scrollWheelZoom: false,
 });
+
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  attribution:
+    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+}).addTo(map);
 
 /* POPUP AND ADDRESS */
 
@@ -31,7 +39,6 @@ function addPopup(marker) {
     "&zoom=18&addressdetails=1";
 
   $.getJSON(jsonQuery).done(function (result_data) {
-    //  console.log(result_data);
     var road;
     kapottAdat = result_data;
 
@@ -66,21 +73,22 @@ function addPopup(marker) {
 
     marker.bindPopup(popup_text).openPopup();
 
-    var newMarker = {Lat: marker.getLatLng().lat, Lng: marker.getLatLng().lng};
+    /* var newMarker = {Lat: marker.getLatLng().lat, Lng: marker.getLatLng().lng};
     localStorage["marker1"] = JSON.stringify(newMarker);
-    console.log(localStorage["marker1"]);
-
+    console.log(localStorage["marker1"]); */
   });
-
 }
-
-let dest = $("#destinations");
 
 $("#submit").click(function (event) {
   event.preventDefault();
-  //   console.log(kapottAdat);
   var target = $(event.target);
-  if (
+
+  if (kapottAdat.address.city === undefined) {
+    dest.append(
+      kapottAdat.address.county + ", " + kapottAdat.address.country + "</p>"
+    );
+    myDest.push(kapottAdat.address.county + ", " + kapottAdat.address.country);
+  } else if (
     target.has(kapottAdat.address.city) &&
     target.has(kapottAdat.address.country)
   ) {
@@ -91,6 +99,7 @@ $("#submit").click(function (event) {
         kapottAdat.address.country +
         "</p>"
     );
+    myDest.push(kapottAdat.address.city + ", " + kapottAdat.address.country);
   } else if (
     target.has(kapottAdat.address.state) &&
     target.has(kapottAdat.address.county)
@@ -102,15 +111,30 @@ $("#submit").click(function (event) {
         kapottAdat.address.county +
         "</p>"
     );
+    myDest.push(kapottAdat.address.state + ", " + kapottAdat.address.county);
   }
+
+  localStorage.setItem("destination", JSON.stringify(myDest));
 });
 
-L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-  attribution:
-    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-}).addTo(map);
+/* LocalStorage */
 
-/* MAP CLICK */
+function storage() {
+  let localstorageGet = JSON.parse(localStorage.getItem("destination"));
+  if (localstorageGet !== null) {
+    localstorageGet.forEach((element) => {
+      myDest.push(element);
+    });
+    console.log(myDest);
+    for (let index = 0; index < myDest.length; index++) {
+      dest.append("<p>" + myDest[index] + "</p>");
+    }
+  } /* else {
+    dest.append("You don't have any destination yet.");
+  } */
+}
+
+/* MAP CLICK + DRAG MARKER */
 
 map.on("click", function (e) {
   // removes old marker
@@ -131,44 +155,9 @@ map.on("click", function (e) {
   addPopup(newMarker);
 });
 
-/* REVERSE GEOCODE */
-
-/* L.esri.Vector.vectorBasemapLayer(basemapEnum, {
-  apiKey: apiKey,
-}).addTo(map);
- */
-/* const layerGroup = L.layerGroup().addTo(map); */
-
-/* map.on("click", function (e) {
-  L.esri.Geocoding.reverseGeocode({
-    apikey: apiKey,
-  })
-    .latlng(e.latlng)
-    .run(function (error, result) {
-      if (error) {
-        return;
-      }
-
-      const lngLatString = `${
-        Math.round(result.latlng.lng * 100000) / 100000
-      }, ${Math.round(result.latlng.lat * 100000) / 100000}`;
-
-      layerGroup.clearLayers();
-      marker = L.marker(result.latlng)
-        .addTo(layerGroup)
-        .bindPopup(`<b>${lngLatString}</b><p>${result.address.Match_addr}</p>`)
-        .openPopup();
-
-      document.getElementById("latitude").value = result.latlng.lng;
-      document.getElementById("longitude").value = result.latlng.lat;
-    });
-}); */
-
 /* KERESŐ */
 
 let searchDest = L.Control.geocoder().addTo(map);
-/* document.getElementById("latitude").value = ;
-document.getElementById("longitude").value = ; */
 
 /* LAYEREK */
 
@@ -247,16 +236,3 @@ function addr_search() {
   xmlhttp.open("GET", url, true);
   xmlhttp.send();
 }
-
-/* ŰRLAP */
-/* 
-function submitForm(event) {
-  event.preventDefault();
-
-  start = document.getElementById("latitude").value;
-  end = document.getElementById("longitude").value;
-}
-
-const form = document.getElementById("form");
-
-form.addEventListener("submit", submitForm); */

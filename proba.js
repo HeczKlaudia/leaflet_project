@@ -202,3 +202,36 @@ map.on("click", onMapClick); */
  
  form.addEventListener("submit", submitForm); */
  
+
+ /* REVERSE GEOCODE */
+
+/* L.esri.Vector.vectorBasemapLayer(basemapEnum, {
+  apiKey: apiKey,
+}).addTo(map);
+ */
+/* const layerGroup = L.layerGroup().addTo(map); */
+
+/* map.on("click", function (e) {
+  L.esri.Geocoding.reverseGeocode({
+    apikey: apiKey,
+  })
+    .latlng(e.latlng)
+    .run(function (error, result) {
+      if (error) {
+        return;
+      }
+
+      const lngLatString = `${
+        Math.round(result.latlng.lng * 100000) / 100000
+      }, ${Math.round(result.latlng.lat * 100000) / 100000}`;
+
+      layerGroup.clearLayers();
+      marker = L.marker(result.latlng)
+        .addTo(layerGroup)
+        .bindPopup(`<b>${lngLatString}</b><p>${result.address.Match_addr}</p>`)
+        .openPopup();
+
+      document.getElementById("latitude").value = result.latlng.lng;
+      document.getElementById("longitude").value = result.latlng.lat;
+    });
+}); */
